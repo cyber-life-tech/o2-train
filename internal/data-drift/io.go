@@ -31,6 +31,6 @@ func DefaultInputPSI() *InputPSI {
 
 // Output of a drift detection operation, including a detailed value for the magnitude of data drift
 type Output struct {
-	Detected bool    `json:"detected"`
-	Value    float64 `json:"value"`
+	Detected    bool    `json:"detected"`
+	MetricValue float64 `json:"metric_value"`
 }

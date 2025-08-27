@@ -8,7 +8,7 @@ import (
 
 func detectPSI(input Input) (Output, error) {
 	if input.PSI == nil {
-		return Output{}, fmt.Errorf("no PSI configuration in the given input")
+		return Output{}, fmt.Errorf("%w: PSI required", ErrEmptyExtraConfig)
 	}
 
 	minVal, maxVal := slices.Min(input.RefVector), slices.Max(input.RefVector)
@@ -36,7 +36,7 @@ func detectPSI(input Input) (Output, error) {
 		metricValue += (refPerc - newPerc) * math.Log(refPerc/newPerc)
 	}
 
-	return Output{Detected: metricValue > input.Threshold, Value: metricValue}, nil
+	return Output{Detected: metricValue > input.Threshold, MetricValue: metricValue}, nil
 }
 
 func histogramPercentages(data, breakpoints []float64) []float64 {

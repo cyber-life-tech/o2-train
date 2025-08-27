@@ -13,7 +13,7 @@ func Detect(input Input) (Output, error) {
 	}
 
 	if len(input.RefVector) == 0 || len(input.NewVector) == 0 {
-		return Output{Detected: true, Value: 1}, nil // Assume drift if one is empty
+		return Output{Detected: true, MetricValue: 1}, nil // Assume drift if one is empty
 	}
 
 	if err := checkInvalidValues(input.RefVector); err != nil {

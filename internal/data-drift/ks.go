@@ -27,7 +27,7 @@ func detectKS(input Input) Output {
 		}
 	}
 
-	return Output{Detected: maxDiff > input.Threshold, Value: maxDiff}
+	return Output{Detected: maxDiff > input.Threshold, MetricValue: maxDiff}
 }
 
 func upperBound(sorted []float64, x float64) float64 {
