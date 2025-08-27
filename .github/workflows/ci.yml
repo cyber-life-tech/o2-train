@@ -30,10 +30,13 @@ jobs:
         run: |
           go fmt ./...
           git diff --exit-code  # Fail if formatting changes are needed
-      - name: golangci-lint
-        uses: golangci/golangci-lint-action@v8
-        with:
-          version: v2.1
+      - name: Install golangci-lint
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v2.4.0
+          golangci-lint --version
+      - name: Run golangci-lint
+        run: |
+          golangci-lint run
 
   test:
     name: Test
@@ -53,8 +56,9 @@ jobs:
       - name: Run tests with coverage
         run: go test -v -race -coverprofile=coverage.txt -covermode=atomic ./...
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v4
         with:
+          flags: unit
           token: ${{ secrets.CODECOV_TOKEN }}
           files: ./coverage.txt
           fail_ci_if_error: true
