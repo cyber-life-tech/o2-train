@@ -15,7 +15,7 @@ jobs:
     name: Lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
@@ -31,15 +31,15 @@ jobs:
           go fmt ./...
           git diff --exit-code  # Fail if formatting changes are needed
       - name: golangci-lint
-        uses: golangci/golangci-lint-action@v6
+        uses: golangci/golangci-lint-action@v8
         with:
-          version: v2.0.0  # Updated to latest major version as of 2025
+          version: v2.1
 
   test:
     name: Test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
@@ -53,7 +53,7 @@ jobs:
       - name: Run tests with coverage
         run: go test -v -race -coverprofile=coverage.txt -covermode=atomic ./...
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: ./coverage.txt
@@ -63,7 +63,7 @@ jobs:
     name: Security Scan
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
