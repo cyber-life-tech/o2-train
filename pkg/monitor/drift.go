@@ -64,19 +64,22 @@ func (dd DataDrift) Tick(ctx context.Context) error {
 }
 
 func (dd DataDrift) onDriftDetected(ctx context.Context, out drift.Output) error {
-	eg, egCTX := errgroup.WithContext(ctx)
+	if len(dd.hooks) > 0 {
+		eg, egCTX := errgroup.WithContext(ctx)
 
-	for _, hook := range dd.hooks {
-		eg.Go(func() error {
-			if err := hook(egCTX, out); err != nil {
-				return fmt.Errorf("data drift hook failed: %w", err)
-			}
-			return nil
-		})
-	}
+		for _, hook := range dd.hooks {
+			eg.Go(func() error {
+				if err := hook(egCTX, out); err != nil {
+					return fmt.Errorf("data drift hook failed: %w", err)
+				}
 
-	if err := eg.Wait(); err != nil {
-		return fmt.Errorf("failed to execute all hooks: %w", err)
+				return nil
+			})
+		}
+
+		if err := eg.Wait(); err != nil {
+			return fmt.Errorf("failed to execute all hooks: %w", err)
+		}
 	}
 
 	if dd.writer != nil {

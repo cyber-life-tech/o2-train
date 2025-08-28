@@ -5,6 +5,7 @@ go 1.25
 require (
 	github.com/brianvoe/gofakeit/v7 v7.4.0
 	github.com/deckarep/golang-set/v2 v2.8.0
+	github.com/golang/mock v1.6.0
 	github.com/stretchr/testify v1.11.1
 	golang.org/x/sync v0.16.0
 )
